@@ -1,0 +1,3 @@
+RewriteEngine on
+RewriteRule ^dang-nhap$ ./pages/login.php
+RewriteRule ^quan-ly$ ./pages/login.php
