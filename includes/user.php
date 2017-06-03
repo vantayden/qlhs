@@ -15,11 +15,11 @@ class user{
 	public function login($user, $pass){
 		$result = array('error' => false, 'message' => '');
 		
-		if(!$this->existing()){
+		if(!$this->existing($user)){
 			$result['error'] = true;
 			$result['message'] = config::user_does_not_exist;
 		} else {
-			$user = $this->db->query("SELECT * FROM `user` WHERE `username` = '{$user}'")->fetch_aray();
+			$user = $this->db->query("SELECT * FROM `user` WHERE `username` = '{$user}'")->fetch_array();
 			if(md5($pass) !== $user['password']){
 				$result['error'] = true;
 				$result['message'] = config::password_does_not_match;
@@ -27,7 +27,6 @@ class user{
 				$_SESSION['user'] = $user['id'];
 			}
 		}
-		var_dump(1);
 		return $result;
 	}
 	
@@ -40,7 +39,7 @@ class user{
 	}
 	
 	public function add($user, $pass, $isAdmin = false){
-		if(isAdmin)
+		if($isAdmin)
 			$this->db->query("INSERT INTO `user` (`username`, `password`, `permission`) VALUES ('{$user}', '".md5($pass)."', '".config::permission_admin."')");
 		else
 			$this->db->query("INSERT INTO `user` (`username`, `password`) VALUES ('{$user}', '".md5($pass)."')");
